@@ -1,3 +1,4 @@
+var gLoop;
 var canvas = document.getElementById('canvas');
 canvas.width = 320;
 canvas.height = 500;
@@ -9,8 +10,6 @@ var clear = function() {
   ctx.fillStyle = '#d0e7f9';
   ctx.fillRect(0, 0, width, height);
 }
-
-clear();
 
 var circlesAmount = 10;
 circles = [];
@@ -28,4 +27,25 @@ var DrawCircles = function() {
   }
 }
 
-DrawCircles();
+var MoveCircles = function(deltaY) {
+  for (var i = 0; i < circlesAmount; i++) {
+      if (circles[i][1] - circles[i][2] > canvas.height) {
+      circles[i][0] = Math.random() * canvas.width;
+      circles[i][2] = Math.random() * 100;
+      circles[i][1] = 0 - circles[i][2];
+      circles[i][3] = Math.random() /2;
+    }
+    else {
+      circles[i][1] += deltaY;
+    }
+  }  
+}
+
+var GameLoop = function () {
+  clear();
+  MoveCircles(5);
+  DrawCircles();
+  gLoop = setTimeout (GameLoop, 1000 / 50);
+}
+// setInterval(GameLoop, 1000 / 50);
+GameLoop();
