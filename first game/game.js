@@ -27,7 +27,7 @@ var DrawCircles = function() {
   }
 }
 
-var MoveCircles = function(deltaY) {
+var MoveCircles = function() {
   for (var i = 0; i < circlesAmount; i++) {
       if (circles[i][1] - circles[i][2] > canvas.height) {
       circles[i][0] = Math.random() * canvas.width;
@@ -36,7 +36,7 @@ var MoveCircles = function(deltaY) {
       circles[i][3] = Math.random() /2;
     }
     else {
-      circles[i][1] += deltaY;
+      circles[i][1] += (Math.random() * 5 + 1);
     }
   }  
 }
@@ -83,7 +83,7 @@ player.setPosition(Math.floor((canvas.width - player.width)/2), Math.floor((canv
 
 var GameLoop = function () {
   clear();
-  MoveCircles(5);
+  MoveCircles();
   DrawCircles();
   player.draw();
   gLoop = setTimeout (GameLoop, 1000 / 50);
