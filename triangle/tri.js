@@ -37,13 +37,22 @@ function readMouseMove(e){
   result_x.innerHTML = e.clientX - 8;
   result_y.innerHTML = e.clientY - 8;
 }
-canvas.onmousemove = readMouseMove;
+
+var activeCorner = false;
+
+var makeActiveCorner = function(){
+  activeCorner = !activeCorner;
+}
+canvas.addEventListener('click', makeActiveCorner);
 
 var moveCorner = function(e) {
-  clear();
-  a = [e.clientX -8, e.clientY -8];
-  drawTriangle(a, b, c);
+  if (activeCorner){
+    clear();
+    a = [e.clientX -8, e.clientY -8];
+    drawTriangle(a, b, c);
+  }  
 }
 
-canvas.onmousemove = moveCorner;
+canvas.addEventListener('mousemove', readMouseMove);
+canvas.addEventListener('mousemove', moveCorner);
 
