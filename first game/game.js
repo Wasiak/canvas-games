@@ -36,7 +36,7 @@ var MoveCircles = function() {
       circles[i][3] = Math.random() /2;
     }
     else {
-      circles[i][1] += (Math.random() * 5 + 1);
+      circles[i][1] += ((Math.floor(Math.random())) * 7 + 1);
     }
   }  
 }
