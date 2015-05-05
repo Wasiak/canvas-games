@@ -30,7 +30,7 @@ var makeBigger = function() {
   console.log('A= ', a[0], ',', a[1], ', B= ', b[0], ',', b[1], ', C= ', c[0], ',', c[1]);
 }
 // setInterval(makeBigger, 500);
-
+var circleRadius = 5;
 function readMouseMove(e){
   var result_x = document.getElementById('x');
   var result_y = document.getElementById('y');
@@ -39,21 +39,44 @@ function readMouseMove(e){
 }
 
 var activeCorner = false;
+var activeCornerA = false;
+var activeCornerB = false;
+var activeCornerC = false;
 
 var canvasPositionModifier = 8;
 var makeActiveCorner = function(e){
   if (
     Math.pow(a[0] - e.clientX + canvasPositionModifier , 2) +
     Math.pow(a[1] - e.clientY + canvasPositionModifier, 2) <=
-    8 * 8
+    Math.pow(circleRadius, 2) 
     ) {
     console.log('no hej');
     activeCorner = true;
+    activeCornerA = true;
+  }
+  else if (
+    Math.pow(b[0] - e.clientX + canvasPositionModifier , 2) +
+    Math.pow(b[1] - e.clientY + canvasPositionModifier, 2) <=
+    Math.pow(circleRadius, 2)
+    ) {
+    activeCorner = true;
+    activeCornerB = true;
+  }
+  else if (
+    Math.pow(c[0] - e.clientX + canvasPositionModifier , 2) +
+    Math.pow(c[1] - e.clientY + canvasPositionModifier, 2) <=
+    Math.pow(circleRadius, 2)
+    ) {
+    activeCorner = true;
+    activeCornerC = true;
   }
 };
 
 var disableActiveCorner = function(){
   activeCorner = false;
+  activeCornerA = false;
+  activeCornerB = false;
+  activeCornerC = false;
 };
 
 canvas.addEventListener('mousedown', makeActiveCorner);
@@ -61,9 +84,16 @@ canvas.addEventListener('mouseup', disableActiveCorner);
 
 var moveCorner = function(e) {
   if (activeCorner){
-
       clear();
-      a = [e.clientX - 8, e.clientY - 8];
+      if (activeCornerA){  
+        a = [e.clientX - 8, e.clientY - 8];
+      }
+      else if (activeCornerB){
+        b = [e.clientX - 8, e.clientY - 8];
+      }
+      else if (activeCornerC){
+        c = [e.clientX - 8, e.clientY - 8];
+      }
       drawTriangle(a, b, c);
     }
   }
