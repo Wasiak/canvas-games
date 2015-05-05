@@ -40,18 +40,29 @@ function readMouseMove(e){
 
 var activeCorner = false;
 
+// canvas margin (should be calculated from Element.getBoundingClientRect())
 var canvasPositionModifier = 8;
+
+// how far from the point we are listening for the mousedown. If the user
+// clicks further than 5px form the point then we skip the action
+var circleRadius = 5;
+
 var makeActiveCorner = function(e){
   if (
+    // point -> circle collision
+    // calculate distance between point & center of the circle and check if
+    //it's bigger than the radius
+    // Math.pow(a, b) will take number 'a' to the power of 'b',
+    // so Math.pow(3, 2) === 9, etc.
     Math.pow(a[0] - e.clientX + canvasPositionModifier , 2) +
     Math.pow(a[1] - e.clientY + canvasPositionModifier, 2) <=
-    8 * 8
+    Math.pow(circleRadius)
     ) {
-    console.log('no hej');
     activeCorner = true;
   }
 };
 
+// it will be simpler and more efficient to have another function for this.
 var disableActiveCorner = function(){
   activeCorner = false;
 };
