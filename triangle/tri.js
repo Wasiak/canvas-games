@@ -77,7 +77,7 @@ var disableActiveCorner = function(){
   activeCornerA = false;
   activeCornerB = false;
   activeCornerC = false;
-};
+ }; 
 
 canvas.addEventListener('mousedown', makeActiveCorner);
 canvas.addEventListener('mouseup', disableActiveCorner);
@@ -98,6 +98,6 @@ var moveCorner = function(e) {
     }
   }
 
-
 canvas.addEventListener('mousemove', readMouseMove);
 canvas.addEventListener('mousemove', moveCorner);
+
