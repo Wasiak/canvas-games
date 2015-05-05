@@ -40,15 +40,35 @@ function readMouseMove(e){
 
 var activeCorner = false;
 
+// canvas margin (should be calculated from Element.getBoundingClientRect())
+var canvasPositionModifier = 8;
+
+// how far from the point we are listening for the mousedown. If the user
+// clicks further than 5px form the point then we skip the action
+var circleRadius = 5;
+
 var makeActiveCorner = function(e){
-  if ((a[0] -5 <= e.clientX -8 <= a[0] +5) && (a[1] -5 <= e.clientY -8 <= a[1])){
-  activeCorner = !activeCorner;
-  } else {
-    // activeCorner = activeCorner;
+  if (
+    // point -> circle collision
+    // calculate distance between point & center of the circle and check if
+    //it's bigger than the radius
+    // Math.pow(a, b) will take number 'a' to the power of 'b',
+    // so Math.pow(3, 2) === 9, etc.
+    Math.pow(a[0] - e.clientX + canvasPositionModifier , 2) +
+    Math.pow(a[1] - e.clientY + canvasPositionModifier, 2) <=
+    Math.pow(circleRadius)
+    ) {
+    activeCorner = true;
   }
-}
+};
+
+// it will be simpler and more efficient to have another function for this.
+var disableActiveCorner = function(){
+  activeCorner = false;
+};
+
 canvas.addEventListener('mousedown', makeActiveCorner);
-canvas.addEventListener('mouseup', makeActiveCorner);
+canvas.addEventListener('mouseup', disableActiveCorner);
 
 var moveCorner = function(e) {
   if (activeCorner){
@@ -56,10 +76,9 @@ var moveCorner = function(e) {
       clear();
       a = [e.clientX - 8, e.clientY - 8];
       drawTriangle(a, b, c);
-    }  
-  }  
+    }
+  }
 
 
 canvas.addEventListener('mousemove', readMouseMove);
 canvas.addEventListener('mousemove', moveCorner);
-
