@@ -40,15 +40,24 @@ function readMouseMove(e){
 
 var activeCorner = false;
 
+var canvasPositionModifier = 8;
 var makeActiveCorner = function(e){
-  if ((a[0] -5 <= e.clientX -8 <= a[0] +5) && (a[1] -5 <= e.clientY -8 <= a[1])){
-  activeCorner = !activeCorner;
-  } else {
-    // activeCorner = activeCorner;
+  if (
+    Math.pow(a[0] - e.clientX + canvasPositionModifier , 2) +
+    Math.pow(a[1] - e.clientY + canvasPositionModifier, 2) <=
+    8 * 8
+    ) {
+    console.log('no hej');
+    activeCorner = true;
   }
-}
+};
+
+var disableActiveCorner = function(){
+  activeCorner = false;
+};
+
 canvas.addEventListener('mousedown', makeActiveCorner);
-canvas.addEventListener('mouseup', makeActiveCorner);
+canvas.addEventListener('mouseup', disableActiveCorner);
 
 var moveCorner = function(e) {
   if (activeCorner){
@@ -56,10 +65,9 @@ var moveCorner = function(e) {
       clear();
       a = [e.clientX - 8, e.clientY - 8];
       drawTriangle(a, b, c);
-    }  
-  }  
+    }
+  }
 
 
 canvas.addEventListener('mousemove', readMouseMove);
 canvas.addEventListener('mousemove', moveCorner);
-
