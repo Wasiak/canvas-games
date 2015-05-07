@@ -90,6 +90,17 @@ var player = new (function(){
     that.jump();
   }
 
+  that.moveLeft = function() {
+    if (that.X > 0) {
+      that.setPosition(that.X - 5, that.Y);
+    }
+  }
+  that.moveRight = function() {
+    if (that.X + that.width < canvas.width) {
+      that.setPosition(that.X + 5, that.Y);
+    }
+  }
+
   that.setPosition = function(x, y){
     that.X = x;
     that.Y = y;
@@ -115,6 +126,14 @@ var player = new (function(){
     that.interval++;
   }
 }) ();
+
+document.onmousemove = function(e) {
+  if (player.X + canvas.offsetLeft > e.pageX) {
+    player.moveLeft();
+  } else if (player.X + canvas.offsetLeft < e.pageX) {
+    player.moveRight();
+  }
+}
 
 player.setPosition(Math.floor((canvas.width - player.width)/2), Math.floor((canvas.height - player.height) /2));
 player.jump();
