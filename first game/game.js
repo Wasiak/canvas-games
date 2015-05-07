@@ -53,6 +53,43 @@ var player = new (function(){
   that.X = 0;
   that.Y = 0;
 
+  that.isJumping = false;
+  that.isFalling = false;
+
+  that.jumpSpeed = 0;
+  that.fallSpeed = 0;
+
+  that.jump = function() {
+    if(!that.isJumping && !that.isFalling) {
+      that.fallSpeed = 0;
+      that.isJumping = true;
+      that.jumpSpeed = 17;
+    }
+  }
+
+  that.checkJump = function() {
+    that.setPosition(that.X, that.Y - that.jumpSpeed);
+    that.jumpSpeed--;
+    if (that.jumpSpeed === 0) {
+      that.isJumping = false;
+      that.isFalling = true;
+      that.fallSpeed = 1;
+    }
+  }
+  that.checkFall = function() {
+    if(that.Y < canvas.height - that.height) {
+      that.setPosition(that.X, that.Y + that.fallSpeed);
+      that.fallSpeed++;
+    } else {
+      that.fallStop();
+    }
+  }
+  that.fallStop = function() {
+    that.isFalling = false;
+    that.fallSpeed = 0;
+    that.jump();
+  }
+
   that.setPosition = function(x, y){
     that.X = x;
     that.Y = y;
@@ -80,11 +117,18 @@ var player = new (function(){
 }) ();
 
 player.setPosition(Math.floor((canvas.width - player.width)/2), Math.floor((canvas.height - player.height) /2));
+player.jump();
 
 var GameLoop = function () {
   clear();
   MoveCircles();
   DrawCircles();
+  if (player.isJumping) {
+    player.checkJump();
+  }
+  if (player.isFalling) {
+    player.checkFall();
+  }
   player.draw();
   gLoop = setTimeout (GameLoop, 1000 / 50);
 }
