@@ -170,7 +170,7 @@ var generatePlatforms = function() {
     if (type === 0)
       type = 1;
     else type = 0;
-    platforms[i] = new Platform(Math.random() * (canvas.width - platformWidth, position, type));
+    platforms[i] = new Platform(Math.random() * (canvas.width - platformWidth), position, type);
     if (position < canvas.height - platformHeight)
       position += ~~(canvas.height / nrOfPlatforms);
   }
