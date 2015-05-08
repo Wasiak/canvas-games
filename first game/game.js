@@ -176,6 +176,14 @@ var generatePlatforms = function() {
   }
 } ();
 
+var checkCollision = function() {
+  platforms.forEach(function(e, ind) {
+    if ((player.isFalling) && (player.X < e.x + platformWidth) && (player.X + player.width > e.x) && (player.Y + player.height > e.y) && (player.Y + player.height < e.y + platformHeight)) {
+      e.onCollide();
+    }
+  })
+}
+
 document.onmousemove = function(e) {
   if (player.X + canvas.offsetLeft > e.pageX) {
     player.moveLeft();
@@ -190,7 +198,7 @@ player.jump();
 
 var GameLoop = function () {
   clear();
-  MoveCircles();
+  // MoveCircles();
   DrawCircles();
   if (player.isJumping) {
     player.checkJump();
@@ -198,10 +206,11 @@ var GameLoop = function () {
   if (player.isFalling) {
     player.checkFall();
   }
-  player.draw();
   platforms.forEach(function(platform) {
     platform.draw();
   });
+  checkCollision();
+  player.draw();
   gLoop = setTimeout (GameLoop, 1000 / 50);
 }
 // setInterval(GameLoop, 1000 / 50);
