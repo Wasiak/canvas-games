@@ -127,12 +127,62 @@ var player = new (function(){
   }
 }) ();
 
+var nrOfPlatforms = 7;
+platforms = [];
+platformWidth = 70;
+platformHeight = 20;
+
+var Platform = function(x, y, type) {
+  var that = this;
+  that.firstColor = '#FF8C00';
+  that.secondColor = '#EEEE00';
+  that.onCollide = function() {
+    player.fallStop();
+  };
+  if (type === 1 ) {
+    that.firstColor = '#AADD00';
+    that.secondColor = '#698B22';
+    that.onCollide = function() {
+      player.fallStop();
+      player.jumpSpeed = 50;
+    };
+  }
+  that.x = ~~x;
+  that.y = y;
+  that.type = type;
+
+  that.draw = function() {
+    ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+    var gradient = ctx.createRadialGradient(that.x + (platformWidth/2), that.y + (platformHeight/2), 5, that.x + (platformWidth/2), that.y + (platformHeight/2), 45);
+    gradient.addColorStop(0, that.firstColor);
+    gradient.addColorStop(1, that.secondColor);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(that.x, that.y, platformWidth, platformHeight);
+  };
+
+  return that;
+};
+
+var generatePlatforms = function() {
+  var position = 0, type;
+  for (var i = 0; i < nrOfPlatforms; i++) {
+    type = ~~(Math.random()*5);
+    if (type === 0)
+      type = 1;
+    else type = 0;
+    platforms[i] = new Platform(Math.random() * (canvas.width - platformWidth, position, type));
+    if (position < canvas.height - platformHeight)
+      position += ~~(canvas.height / nrOfPlatforms);
+  }
+} ();
+
 document.onmousemove = function(e) {
   if (player.X + canvas.offsetLeft > e.pageX) {
     player.moveLeft();
   } else if (player.X + canvas.offsetLeft < e.pageX) {
     player.moveRight();
   }
+
 }
 
 player.setPosition(Math.floor((canvas.width - player.width)/2), Math.floor((canvas.height - player.height) /2));
@@ -149,6 +199,9 @@ var GameLoop = function () {
     player.checkFall();
   }
   player.draw();
+  platforms.forEach(function(platform) {
+    platform.draw();
+  });
   gLoop = setTimeout (GameLoop, 1000 / 50);
 }
 // setInterval(GameLoop, 1000 / 50);
