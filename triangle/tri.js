@@ -82,8 +82,8 @@ var disableActiveCorner = function(){
 var drawHeightA = function() {
   //for now just test line wiht angle === angle of AC side
   var xx = [c[0],a[1]];
-  var xxA = c[0] - a[0];
-  var xxC = c[1] - a [1];
+  var xxA = Math.abs(c[0] - a[0]);
+  var xxC = Math.abs(c[1] - a [1]);
   // console.log('xx = ', xx);
   // console.log('xxA = ', xxA);
   // console.log('xxC = ', xxC);
@@ -92,7 +92,7 @@ var drawHeightA = function() {
   // console.log('tgPsi = ', tgPsi);
   //psi in degrees
   var psi = (Math.atan(tgPsi) * 180 / Math.PI);
-  // console.log('psi = ', psi);
+  console.log('psi = ', psi);
   var sideA = Math.sqrt(Math.pow(c[0] - b[0], 2) + Math.pow(c[1] - b[1], 2));
   var sideB = Math.sqrt(Math.pow(c[0] - a[0], 2) + Math.pow(c[1] - a[1], 2)); 
   var sideC = Math.sqrt(Math.pow(b[0] - a[0], 2) + Math.pow(b[1] - a[1], 2));
@@ -114,8 +114,11 @@ var drawHeightA = function() {
   ctx.beginPath();
   ctx.moveTo(a[0], a[1]);
   ctx.translate(a[0], a[1]);
-  ctx.rotate((Math.PI/180) * (psi+eta));  
-  ctx.lineTo(h, 0);
+  ctx.rotate((Math.PI/180) * (psi+eta));
+  if (a[1] < c[1])
+    ctx.lineTo(h, 0);
+  else 
+    ctx.lineTo(-h, 0);  
   ctx.closePath();
   ctx.stroke();
   ctx.restore();
