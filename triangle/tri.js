@@ -92,7 +92,7 @@ var drawHeightA = function() {
   console.log('tgPsi = ', tgPsi);
   //psi in degrees
   var psi = (Math.atan(tgPsi) * 180 / Math.PI);
-  console.log = ('psi = ', psi);
+  console.log('psi = ', psi);
 
 };
 
