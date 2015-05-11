@@ -50,7 +50,7 @@ var makeActiveCorner = function(e){
     Math.pow(a[1] - e.clientY + canvasPositionModifier, 2) <=
     Math.pow(circleRadius, 2) 
     ) {
-    console.log('no hej');
+    // console.log('no hej');
     activeCorner = true;
     activeCornerA = true;
   }
@@ -78,6 +78,23 @@ var disableActiveCorner = function(){
   activeCornerB = false;
   activeCornerC = false;
  }; 
+
+var drawHeightA = function() {
+  //for now just test line wiht angle === angle of AC side
+  var xx = [c[0],a[1]];
+  var xxA = c[0] - a[0];
+  var xxC = c[1] - a [1];
+  console.log('xx = ', xx);
+  console.log('xxA = ', xxA);
+  console.log('xxC = ', xxC);
+  // Psi is an angle beetwen X axis and AC side of triangle
+  var tgPsi = xxC / xxA;
+  console.log('tgPsi = ', tgPsi);
+  //psi in degrees
+  var psi = (Math.atan(tgPsi) * 180 / Math.PI);
+  console.log = ('psi = ', psi);
+
+};
 
 canvas.addEventListener('mousedown', makeActiveCorner);
 canvas.addEventListener('mouseup', disableActiveCorner);
